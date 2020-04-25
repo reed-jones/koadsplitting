@@ -1,39 +1,38 @@
-import Koa from "koa";
-import serve from "koa-static";
-import read from './shared/cache-read.js'
-import bundle from './shared/bundle.js'
-import { join, resolve } from 'path'
-import { createReadStream, mkdirSync, existsSync } from "fs";
+import Koa from "koa"
+import serve from "koa-static"
+import read from "./shared/cache-read.js"
+import bundle from "./shared/bundle.js"
+import { join, resolve } from "path"
+import { createReadStream, mkdirSync, existsSync } from "fs"
+import data from "./shared/data.js"
 
 // dist folder is a must
-const distFolder = join(resolve(), 'dist')
+const distFolder = join(resolve(), ".bundled")
 if (!existsSync(distFolder)) {
-    mkdirSync(distFolder)
+  mkdirSync(distFolder)
 }
 
-const app = new Koa();
+const app = new Koa()
 
 // Serve all assets out of the public folder, easy
-app.use(serve("./public"));
+app.use(serve("./public"))
 
 app.use(async ctx => {
-    if (ctx.url.startsWith('/_static')) {
-        ctx.type = 'js'
-        ctx.body = createReadStream(ctx.url.replace('/_static', './dist'))
-    } else {
-        const name = ctx.url
-        // check to see if file is in cache
-        let file = await read({ name });
-        // if the file is not found bundle it
-        if (!file) {
-            file = await bundle({ name });
-        }
-        // redirect to the file
-        ctx.redirect(`/_static/${file}`);
-        // ctx.status = 200
-        // ctx.body = ctx.url
-    }
-});
+  const name = ctx.url
 
-app.listen(3000);
-console.log(`listening on http://localhost:3000`);
+  // If it exists on disk, or in the cache, proceed
+  if (
+    existsSync(join(resolve(), "src", "client", ctx.url)) ||
+    data.has({ key: ctx.url })
+  ) {
+    // get the file from cache if available, or else bundle it
+    const file = (await read({ name })) ?? (await bundle({ name }))
+
+    // return to the bundled file
+    ctx.type = "js"
+    ctx.body = createReadStream(join("./.bundled", file))
+  }
+})
+
+app.listen(3000)
+console.log(`listening on http://localhost:3000`)

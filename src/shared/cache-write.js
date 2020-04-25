@@ -1,46 +1,38 @@
-import crypto from "crypto";
-import path from "path";
-import fs from "fs";
-import data from './data.js'
+import crypto from "crypto"
+import path from "path"
+import fs from "fs"
+import data from "./data.js"
 
 const generateFingerprint = (name, source) => {
-  let hash = crypto.createHash("sha1");
-  hash.update(Buffer.from(source));
-  let sha = hash.digest("hex").substr(0, 7);
+  let hash = crypto.createHash("sha1")
+  hash.update(Buffer.from(source))
+  let sha = hash.digest("hex").substr(0, 7)
   let [filename, extension] = name
     .split("/")
     .slice(0)
     .reverse()
     .shift()
-    .split(".");
+    .split(".")
 
-  return `${filename}-${sha}.${extension}`;
+  return `${filename}-${sha}.${extension}`
 }
 
 export default async function write({ name, source, cacheKey }) {
-  // fingerprint it
-  console.time(`fingerprint-${name}`);
+  // If the cache key was supplied, then don't bother with fingerprinting
+  console.time(`fingerprint-${name}`)
+  let fingerprint = cacheKey ?? generateFingerprint(name, source)
+  console.timeEnd(`fingerprint-${name}`)
 
-  let fingerprint = name !== cacheKey ? cacheKey : generateFingerprint(name, source)
+  // write file to disk. could write to s3 or something instead...
+  console.time(`write-${name}`)
+  let pathToPublic = "./" + path.join(".bundled", fingerprint)
+  fs.writeFileSync(pathToPublic, source)
+  console.timeEnd(`write-${name}`)
 
-  console.timeEnd(`fingerprint-${name}`);
+  // Save to cache manifest
+  console.time(`cache-${name}`)
+  data.set({ key: cacheKey ?? name, file: fingerprint })
+  console.timeEnd(`cache-${name}`)
 
-  // write local when running local
-  console.time(`write-${name}`);
-
-  console.log(`writing =================== ${name === cacheKey}`)
-  let pathToPublic = './' + path.join("dist", fingerprint);
-  // console.warn("WRITING FILE")
-  // console.warn(pathToPublic)
-  fs.writeFileSync(pathToPublic, source);
-
-  console.timeEnd(`write-${name}`);
-
-  console.time(`ddb-cache-${name}`);
-  let key = cacheKey;
-  let file = fingerprint;
-  await data.set({ key, file });
-  console.timeEnd(`ddb-cache-${name}`);
-
-  return fingerprint;
+  return fingerprint
 }
