@@ -1,0 +1,23 @@
+{
+  "name": "koad-split",
+  "type": "module",
+  "version": "0.0.1",
+  "description": "progressive bundling with code splitting",
+  "main": "index.js",
+  "author": "Reed Jones reedjones@reedjones.com",
+  "license": "MIT",
+  "scripts": {
+    "serve:dev": "yarn clean && node src/server.js",
+    "dev": "nodemon",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "koa": "^2.11.0",
+    "koa-static": "^5.0.0",
+    "rollup": "^2.7.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3",
+    "rimraf": "^3.0.2"
+  }
+}
