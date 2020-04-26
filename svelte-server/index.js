@@ -15,6 +15,7 @@ import {
 import data from "./shared/data.js"
 import ejs from "ejs"
 import svelte from "svelte/compiler.js"
+import { get } from "./shared/filesystem.js"
 
 var walkSync = (dir, fileList = null) => {
   var files = readdirSync(dir)
@@ -29,9 +30,9 @@ var walkSync = (dir, fileList = null) => {
   return fileList
 }
 
-const routes = walkSync("./src/client/views").map(file => {
+const routes = walkSync("./pages").map(file => {
   const lowercase = file.toLowerCase()
-  const withoutRoot = lowercase.replace("src/client/views", "")
+  const withoutRoot = lowercase.replace("pages", "")
   const withoutExtension = withoutRoot.replace(".svelte", "")
   const withoutIndex = withoutExtension.replace(/\/index$/, "")
   const withPrefix = join("/", withoutIndex)
@@ -42,11 +43,6 @@ const routes = walkSync("./src/client/views").map(file => {
   }
 })
 
-// dist folder is a must
-const distFolder = join(resolve(), ".bundled")
-if (!existsSync(distFolder)) {
-  mkdirSync(distFolder)
-}
 
 const app = new Koa()
 
@@ -60,25 +56,19 @@ app.use(async (ctx, next) => {
     return next()
   }
 
-  const file = (await read({ route })) ?? (await bundle({ route }))
+  let file = (await read({ route })) ?? (await bundle({ route }))
 
-  const { default: renderer } = await import(
-    join("..", ".bundled", `${file.ssr}.js`)
-  )
+  const out = JSON.parse(get(file.ssr))
 
-  const out = renderer.render({})
+  const domPath = join("/", "js", `${file.dom}`)
 
-  const domPath = join("/", "js", `${file.dom}.js`)
-
-  const html = ejs.render(readFileSync("./src/index.template.html", "utf-8"), {
+  ctx.type = "html"
+  ctx.body = ejs.render(readFileSync("./index.template.html", "utf-8"), {
     script: `<script src=${domPath} type=module></script>`,
     html: out.html,
     style: `<style>${out.css.code}</style>`,
     head: out.head,
   })
-
-  ctx.type = "html"
-  ctx.body = html
 })
 
 app.use(async (ctx, next) => {
@@ -88,7 +78,7 @@ app.use(async (ctx, next) => {
 
   const name = ctx.url.replace("/js/", "") // remove 'module' flag
   ctx.type = "js"
-  ctx.body = createReadStream(join("./.bundled", name))
+  ctx.body = get(name)
 })
 
 app.listen(3000)

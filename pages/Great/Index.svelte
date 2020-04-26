@@ -9,7 +9,7 @@
 		<a href="/test/neat">Neat!</a>
 	</nav>
 
-	<h1>Hello. this is http://localhost:3000/great</h1>
+	<h1>Hello. this is Great</h1>
 	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
 </main>
 

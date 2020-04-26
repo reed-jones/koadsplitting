@@ -6,6 +6,7 @@
 	}
 
 	let name = 'world';
+	// console.log('ksjdhfksjhdfkjshdkfhskfjhskdjh')
 </script>
 
 <main>
