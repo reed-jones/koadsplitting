@@ -6,7 +6,7 @@
 	<nav>
 		<a href="/">Home</a>
 		<a href="/great">Great</a>
-		<a href="/test/neat">Neat!</a>
+		<a href="/thats/neat">Neat!</a>
 	</nav>
 
 	<h1>Hello. this is Great</h1>

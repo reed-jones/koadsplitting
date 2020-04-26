@@ -1,85 +1,70 @@
 import Koa from "koa"
-import serve from "koa-static"
-import read from "./shared/cache-read.js"
-import bundle from "./shared/bundle.js"
 import { join, resolve } from "path"
+import minimist from "minimist"
+import { findRoutes, logging, createRoute } from "./utils.js"
 import {
-  createReadStream,
-  mkdirSync,
-  existsSync,
-  readFileSync,
-  writeFileSync,
-  readdirSync,
-  statSync,
-} from "fs"
-import data from "./shared/data.js"
-import ejs from "ejs"
-import svelte from "svelte/compiler.js"
-import { get } from "./shared/filesystem.js"
+  servePublicFolder,
+  serveSSRPage,
+  dynamicallyAddJs,
+  start,
+} from "./koaUtils.js"
+import chokidar from "chokidar"
+import data from './shared/data.js'
+import chalk from 'chalk'
 
-var walkSync = (dir, fileList = null) => {
-  var files = readdirSync(dir)
-  fileList = fileList ?? []
-  files.forEach(file => {
-    if (statSync(join(dir, file)).isDirectory()) {
-      fileList = walkSync(join(dir, file, "/"), fileList)
-    } else {
-      fileList.push(join(dir, file))
-    }
-  })
-  return fileList
+const args = minimist(process.argv.slice(2))
+
+const root = join(resolve(), args.path ?? "./pages")
+
+const options = {
+  // in prod, minify etc
+  production: !args.dev,
+
+  // show logging (defaults on in dev, off in prod)
+  logging: logging(!!args.dev || !!args.logging),
+
+  // base path where all the svelte files are kept
+  root,
+
+  // html template file
+  template: join(resolve(), args.template ?? "index.template.html"),
+
+  // path to public folder... will be served statically
+  public: args.public ? join(resolve(), args.public) : null,
+  // port to start server on. defaults to first available
+
+  port: args.port ?? null,
+
+  // All found routes (will be updated via chokidar)
+  routes: [],
 }
 
-const routes = walkSync("./pages").map(file => {
-  const lowercase = file.toLowerCase()
-  const withoutRoot = lowercase.replace("pages", "")
-  const withoutExtension = withoutRoot.replace(".svelte", "")
-  const withoutIndex = withoutExtension.replace(/\/index$/, "")
-  const withPrefix = join("/", withoutIndex)
-
-  return {
-    url: withPrefix,
-    file: file,
-  }
-})
-
-
-const app = new Koa()
-
-// Serve all assets out of the public folder, easy
-app.use(serve("./public"))
-
-app.use(async (ctx, next) => {
-  const route = routes.find(route => route.url === ctx.url)
-
-  if (!route) {
-    return next()
-  }
-
-  let file = (await read({ route })) ?? (await bundle({ route }))
-
-  const out = JSON.parse(get(file.ssr))
-
-  const domPath = join("/", "js", `${file.dom}`)
-
-  ctx.type = "html"
-  ctx.body = ejs.render(readFileSync("./index.template.html", "utf-8"), {
-    script: `<script src=${domPath} type=module></script>`,
-    html: out.html,
-    style: `<style>${out.css.code}</style>`,
-    head: out.head,
+chokidar
+  .watch(join(options.root, '**/*.svelte'))
+  .on("unlink", path => {
+    options.logging.log(`[${chalk.red('File Removed')}]: ${path.replace(options.root, '')}`)
+    // delete from routes
+    const idx = options.routes.findIndex(file => file.file === path)
+    options.routes.splice(idx, 1)
+    // delete from cache
+    data.delete({ key: path })
   })
-})
+  .on("add", path => {
+    options.logging.log(`[${chalk.blue('File Added')}]:   ${path.replace(options.root, '')}`)
+    options.routes.push(createRoute(options.root, path))
+  })
+  .on('change', key => {
+    options.logging.log(`[${chalk.green('File Updated')}]: ${key.replace(options.root, '')}`)
+    data.delete({ key })
+  })
 
-app.use(async (ctx, next) => {
-  if (!ctx.url.startsWith("/js/")) {
-    return next()
-  }
-
-  const name = ctx.url.replace("/js/", "") // remove 'module' flag
-  ctx.type = "js"
-  ctx.body = get(name)
-})
-
-app.listen(3000)
-console.log(`listening on http://localhost:3000`)
+// Run the middleware, in this order
+const [app] = [
+  servePublicFolder,
+  serveSSRPage,
+  dynamicallyAddJs,
+  start,
+].reduce(([app, options], m) => (m(app, options), [app, options]), [
+  new Koa(),
+  options,
+])

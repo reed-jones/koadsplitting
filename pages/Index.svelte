@@ -13,7 +13,7 @@
 	<nav>
 		<a href="/">Home</a>
 		<a href="/great">Great</a>
-		<a href="/test/neat">Neat!</a>
+		<a href="/thats/neat">Neat!</a>
 	</nav>
 
 	<h1>Hello {name}! This IS Cool</h1>

@@ -7,7 +7,7 @@ export default async function read({ route }) {
   const cache = data.get({ key: route.file })
 
   // look for the entry file in the path
-  if (!cache && !existsSync(join(resolve(), `${route.file}`))) {
+  if (!cache && !existsSync(route.file)) {
     throw ReferenceError(`url_not_found: ${route.url}`)
   }
 

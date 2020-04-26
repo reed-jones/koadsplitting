@@ -8,8 +8,8 @@
   "license": "MIT",
   "scripts": {
     "serve:dev": "yarn clean && node src/server.js",
-    "svelte-server": "node svelte-server",
-    "dev": "nodemon",
+    "serve": "node svelte-server",
+    "dev": "node svelte-server --dev",
     "clean": "rimraf .bundled"
   },
   "dependencies": {

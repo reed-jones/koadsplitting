@@ -1,23 +1,25 @@
 import * as rollup from "rollup"
 import write from "./cache-write.js"
-import { basename, resolve, join } from "path"
 import terser from "rollup-plugin-terser"
 // import livereload from "rollup-plugin-livereload"
-// import svelte from "rollup-plugin-svelte"
 import nodeResolve from "@rollup/plugin-node-resolve"
 import { readFileSync } from "fs"
 import svelte from "svelte/compiler.js"
 import virtual from "@rollup/plugin-virtual"
+import chalk from "chalk"
 
-const production = false
+export default async function bundle({ route }, options) {
+  const stopTimer = options.logging.start(`[${chalk.yellow('Bundling')}]: ${route.relative}`)
 
-export default async function bundle({ route }) {
-  console.time(`bundle-${route.file}`)
-  console.log("setup rollup", join(resolve(), route.file))
-
-  const name = `${route.file.replace("pages", "")}.js` // Index.svelte.js
+  const name = `${route.relative}.js` // Index.svelte.js
   const raw = readFileSync(route.file).toString()
-  const componentName = name.split('.').find(a => true).split('/').reverse().find(a => true)
+  const componentName = name
+    .split(".") // split on extension
+    .find(a => true) // get before extension
+    .split("/") // split file paths
+    .reverse() // put file name before path
+    .find(a => true) // grab the first found
+
   const ssr = svelte.compile(raw, {
     generate: "ssr",
     css: true,
@@ -25,6 +27,7 @@ export default async function bundle({ route }) {
     name: componentName,
     filename: componentName,
   })
+
   const dom = svelte.compile(raw, {
     generate: "dom",
     css: false,
@@ -32,7 +35,13 @@ export default async function bundle({ route }) {
     name: componentName,
     filename: componentName,
   })
-  dom.js.code = dom.js.code.replace(`export default ${componentName};`, `new ${componentName}({ target: document.body, hydrate: true });`)
+
+  // Trade an export default for a new component instance
+  dom.js.code = dom.js.code.replace(
+    `export default ${componentName};`,
+    `new ${componentName}({ target: document.body, hydrate: true });`
+  )
+
   const [ssrRollup, domRollup] = await Promise.all([
     rollup.rollup({
       input: "ssr",
@@ -52,23 +61,24 @@ export default async function bundle({ route }) {
           browser: true,
           dedupe: ["svelte"],
         }),
-        terser.terser()
+        options.production && terser.terser(),
       ],
     }),
   ])
 
-  const [ssrBundle, domBundle] = await Promise.all([
+  const [ssrModule, domModule, domNoModule] = await Promise.all([
     ssrRollup.generate({ format: "esm" }),
-    domRollup.generate({ format: "esm" }),
+    domRollup.generate({ format: "esm" }), // module
+    domRollup.generate({ format: "iife" }), // nomodule
   ])
 
-  console.timeEnd(`bundle-${route.file}`)
+  stopTimer()
 
   return write({
     file: route.file,
-    ssr: ssrBundle.output[0].code,
-    // Would like to have a better way of doing this...
-    dom: domBundle.output[0].code,
+    ssr: ssrModule.output[0].code,
+    dom: domModule.output[0].code,
+    iife: domNoModule.output[0].code,
     name,
-  })
+  }, options)
 }
