@@ -1,7 +1,10 @@
 {
     "exec": "yarn serve:dev",
+    "ignore": [
+        "src/client/test.js"
+    ],
     "watch": [
         "src/"
     ],
-    "ext": "js"
+    "ext": "js,svelte"
 }

@@ -17,22 +17,24 @@ const generateFingerprint = (name, source) => {
   return `${filename}-${sha}.${extension}`
 }
 
-export default async function write({ name, source, cacheKey }) {
+export default async function write({ file, ssr, dom, name }) {
   // If the cache key was supplied, then don't bother with fingerprinting
   console.time(`fingerprint-${name}`)
-  let fingerprint = cacheKey ?? generateFingerprint(name, source)
+  let SSRFingerprint = generateFingerprint(name, ssr)
+  let DOMFingerprint = generateFingerprint(name, dom)
   console.timeEnd(`fingerprint-${name}`)
 
   // write file to disk. could write to s3 or something instead...
   console.time(`write-${name}`)
-  let pathToPublic = "./" + path.join(".bundled", fingerprint)
-  fs.writeFileSync(pathToPublic, source)
+  fs.writeFileSync(path.join(".bundled", `${SSRFingerprint}.js`), ssr)
+  fs.writeFileSync(path.join(".bundled", `${DOMFingerprint}.js`), dom)
   console.timeEnd(`write-${name}`)
 
+  const cacheData = { key: file, ssr: SSRFingerprint, dom: DOMFingerprint, file, name }
   // Save to cache manifest
   console.time(`cache-${name}`)
-  data.set({ key: cacheKey ?? name, file: fingerprint })
+  data.set(cacheData)
   console.timeEnd(`cache-${name}`)
 
-  return fingerprint
+  return cacheData
 }
