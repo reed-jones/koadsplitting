@@ -1,5 +1,5 @@
 {
-  "name": "koad-split",
+  "name": "svelte-server-demo",
   "type": "module",
   "version": "0.0.1",
   "description": "progressive bundling with code splitting",
@@ -7,15 +7,10 @@
   "author": "Reed Jones reedjones@reedjones.com",
   "license": "MIT",
   "scripts": {
-    "serve:dev": "yarn clean && node src/server.js",
-    "serve": "node svelte-server",
-    "dev": "node svelte-server --dev",
-    "clean": "rimraf .bundled"
+    "serve:dev": "svelte-server --dev --hot",
+    "serve": "svelte-server"
   },
   "dependencies": {
-    "svelte-server": "./svelte-server"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.3"
+    "svelte-server": "^0.0.2"
   }
 }

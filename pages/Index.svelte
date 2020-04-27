@@ -1,4 +1,5 @@
 <script>
+	import NavBar from '../components/NavBar.svelte'
 	let count = 0;
 
 	function handleClick() {
@@ -6,17 +7,13 @@
 	}
 
 	let name = 'world';
-	// console.log('ksjdhfksjhdfkjshdkfhskfjhskdjh')
+
 </script>
 
 <main>
-	<nav>
-		<a href="/">Home</a>
-		<a href="/great">Great</a>
-		<a href="/thats/neat">Neat!</a>
-	</nav>
+	<NavBar />
 
-	<h1>Hello {name}! This IS Cool</h1>
+	<h1>Hello {name}</h1>
 	<button on:click={handleClick}>
 		Clicked {count} {count === 1 ? 'time' : 'times'}
 	</button>
@@ -31,9 +28,9 @@
 		margin: 0 auto;
 	}
 	h1 {
-		color: #ff3e00;
+		color: red;
 		text-transform: uppercase;
-		font-size: 4em;
+		font-size: 2em;
 		font-weight: 100;
 	}
 	@media (min-width: 640px) {

@@ -1,7 +1,0 @@
-{
-    "exec": "yarn svelte-server",
-    "watch": [
-        "pages/"
-    ],
-    "ext": "js,svelte"
-}
