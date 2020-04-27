@@ -1830,10 +1830,8 @@ supports-color@^7.1.0:
   dependencies:
     has-flag "^4.0.0"
 
-svelte-server@^0.0.2:
+svelte-server@../svelte-server:
   version "0.0.2"
-  resolved "https://registry.yarnpkg.com/svelte-server/-/svelte-server-0.0.2.tgz#5125b97c32612595fe6517a610304cb6c59bc646"
-  integrity sha512-b/S9iQcTmZbaxX/roID0gbLTLi4DH5zeN8ore/dOlbVkJTexC8JSN2fzdoFasKn0i4vrlCl9H9AAS65Z24fhAw==
   dependencies:
     "@babel/core" "^7.9.0"
     "@babel/preset-env" "^7.9.5"

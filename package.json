@@ -11,6 +11,6 @@
     "serve": "svelte-server"
   },
   "dependencies": {
-    "svelte-server": "^0.0.2"
+    "svelte-server": "../svelte-server"
   }
 }
