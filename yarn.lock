@@ -1080,9 +1080,9 @@ ejs@^3.1.2:
     jake "^10.6.1"
 
 electron-to-chromium@^1.3.413:
-  version "1.3.418"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.418.tgz#840021191f466b803a873e154113620c9f53cec6"
-  integrity sha512-i2QrQtHes5fK/F9QGG5XacM5WKEuR322fxTYF9e8O9Gu0mc0WmjjwGpV8c7Htso6Zf2Di18lc3SIPxmMeRFBug==
+  version "1.3.419"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.419.tgz#51eaf2efa8a7d548d439e22ea0c0fddb01f574e5"
+  integrity sha512-tDHMDYMjIGEY7sPAP8W3rmeZzlGm1H8/sc6j8gKKaQCyBw87FZ7SvQpfKKtBu3wnGOgw3+niPPISarvItnMlIQ==
 
 encodeurl@^1.0.2:
   version "1.0.2"
@@ -1745,9 +1745,9 @@ rollup-pluginutils@^2.8.1, rollup-pluginutils@^2.8.2:
     estree-walker "^0.6.1"
 
 rollup@^2.7.2:
-  version "2.7.2"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.7.2.tgz#0f8ee6216d33e83c0750116312c2c92b94cc7f72"
-  integrity sha512-SdtTZVMMVSPe7SNv4exUyPXARe5v/p3TeeG3LRA5WabLPJt4Usi3wVrvVlyAUTG40JJmqS6zbIHt2vWTss2prw==
+  version "2.7.3"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.7.3.tgz#24ebb08533b9ca6bc5a7aef8100e155e50035c31"
+  integrity sha512-lAWJGZ5BQzcu/5fhMKGJrh5oy9LQUoaCid8cQV8k+E2vE9E/UWptzcM+bSBg+u8akORsvnybsqQUE/wVChIazg==
   optionalDependencies:
     fsevents "~2.1.2"
 
@@ -1830,10 +1830,10 @@ supports-color@^7.1.0:
   dependencies:
     has-flag "^4.0.0"
 
-svelte-server@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/svelte-server/-/svelte-server-0.0.3.tgz#88c7a02ae0f24822becad5b23c856bb497ed6b97"
-  integrity sha512-t4eg58s2mn9GTNmDO71f+I3oiimnKUdiKSA4EVRySuMuxqNm/jeVPcLP1Hf2uMXwMQu7OBo6UMLV0ckn682U+Q==
+svelte-server@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/svelte-server/-/svelte-server-0.0.5.tgz#4b64454bdea703736f13bb8bd863069c039735dc"
+  integrity sha512-mhRaUWuOn7CUJHal1R3YVz7H/VBq+dogBn4MGLwGegMnuFXVIuZ/CrV/IYUifqHe2v5QL7FKDeG9/3A819X/9g==
   dependencies:
     "@babel/core" "^7.9.0"
     "@babel/preset-env" "^7.9.5"

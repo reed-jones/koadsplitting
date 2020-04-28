@@ -6,9 +6,15 @@
 		count += 1;
 	}
 
-	let name = 'world';
-
+	export let name;
 </script>
+
+
+<svelte:head>
+	<title>Hello World</title>
+	<meta name="robots" content="noindex nofollow" />
+	<html lang="en" />
+</svelte:head>
 
 <main>
 	<NavBar />
