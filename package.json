@@ -7,10 +7,10 @@
   "author": "Reed Jones reedjones@reedjones.com",
   "license": "MIT",
   "scripts": {
-    "serve:dev": "svelte-server --dev --hot",
-    "serve": "svelte-server"
+    "serve:dev": "svelte-server --dev --hmr --public ./public",
+    "serve": "svelte-server --public ./public"
   },
   "dependencies": {
-    "svelte-server": "^0.0.5"
+    "svelte-server": "^0.0.6"
   }
 }
