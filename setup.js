@@ -1,3 +1,9 @@
+/**
+ * If using the CLI interface ( yarn svelte-server / npm run svelte-server )
+ * then an optional setup.js file can be created in
+ * the root directory to provide additional options
+ */
+
 export default {
     // data loading. pass props to files keyed by the url.
     // returns an object with each key being supplied to
@@ -20,12 +26,7 @@ export default {
 
 
     // settings for svelte-server. Most options have a CLI flag which can be used if preferred
-    settings: {
-
-        /**
-         * Locations
-         */
-
+    config: {
         // path to public assets
         public: './public',
 
@@ -33,7 +34,7 @@ export default {
         pages: './pages',
 
         // non-page files
-        components: './components',
+        // components: './components',
 
         // chokidar watch locations (just looks for svelte files)
         watch: ['./pages', './components'],
@@ -41,12 +42,8 @@ export default {
         // main page template: https://ejs.co/
         template: 'index.template.ejs',
 
-        /**
-         * Flags
-         */
-
         // dev mode
-        dev: process.env.NODE_ENV !== 'production',
+        // dev: process.env.NODE_ENV !== 'production',
 
         // show logging in console
         logging: process.env.NODE_ENV !== 'production',
@@ -55,14 +52,14 @@ export default {
         hmr: process.env.HMR_ENABLED,
 
         // use in-memory filesystem where possible
-        memfs: true,
+        // memfs: true,
 
         // periodically delete files after bundling
-        cleaning: true,
+        // cleaning: true,
 
         // import aliases (not yet enabled)
-        aliases: {
-            '@': './components'
-        }
+        // aliases: {
+        //     '@': './components'
+        // }
     }
 }

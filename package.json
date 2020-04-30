@@ -7,10 +7,11 @@
   "author": "Reed Jones reedjones@reedjones.com",
   "license": "MIT",
   "scripts": {
+    "custom": "node programmatic.js",
     "serve:dev": "svelte-server --dev --hmr --public ./public",
     "serve": "svelte-server --public ./public"
   },
   "dependencies": {
-    "svelte-server": "^0.0.6"
+    "svelte-server": "^0.1.0"
   }
 }
