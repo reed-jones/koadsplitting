@@ -1,47 +1,66 @@
-<script>
-	import NavBar from '../components/NavBar.svelte'
-	let count = 0;
+<style>
+:global(html) {
+    margin: 0;
+    width: 100vw;
+    font-size: 16px;
+}
+  :global(body) {
+    margin: 0;
+    width: 100vw;
+    font-size: 16px;
+    font-family: "Inter", sans-serif;
+  }
 
-	function handleClick() {
-		count += 1;
-	}
+  :global(*) {
+    box-sizing: border-box;
+  }
 
-	export let name;
-</script>
+  main {
+    width: 100vw;
+    text-align: center;
+    /* padding: 25vh 4rem; */
+    color: #444;
+    /* border: 1px solid; */
+    height: 100vh;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+  }
+  .row {
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+  }
+  h1 {
+    font-size: 6rem;
+    margin: 0;
+  }
+  span {
+    font-size: 3rem;
+  }
 
-
-<svelte:head>
-	<title>Hello World</title>
-	<meta name="robots" content="noindex nofollow" />
-	<html lang="en" />
-</svelte:head>
+  .docs-link {
+    text-decoration: none;
+    background: #3c528b;
+    color: white;
+    border-radius: 0.4rem;
+    padding: 0.5rem 1rem;
+  }
+</style>
 
 <main>
-	<NavBar />
-
-	<h1>Hello {name}</h1>
-	<button on:click={handleClick}>
-		Clicked {count} {count === 1 ? 'time' : 'times'}
-	</button>
-	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+  <header class="bg-red-500">
+    <div class="row">
+      <h1>
+        SVELTE
+        <wbr />
+        <span>Server</span>
+      </h1>
+      <p>(Unofficial)</p>
+    </div>
+    <a href="/docs/#" class="docs-link">Read The Docs</a>
+  </header>
 </main>
-
-<style>
-	main {
-		text-align: center;
-		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
-	}
-	h1 {
-		color: red;
-		text-transform: uppercase;
-		font-size: 2em;
-		font-weight: 100;
-	}
-	@media (min-width: 640px) {
-		main {
-			max-width: none;
-		}
-	}
-</style>
