@@ -44,7 +44,7 @@
 
   .docs-link {
     text-decoration: none;
-    background: #3c528b;
+    background: #4c597b;
     color: white;
     border-radius: 0.4rem;
     padding: 0.5rem 1rem;

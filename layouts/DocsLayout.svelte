@@ -7,6 +7,7 @@
   export let bottom = 32;
   export let left = 0;
   export let right = 0;
+  export let snapType = 'proximity';
   let intersecting = false;
   let container;
 
@@ -66,8 +67,11 @@
   }
 
   article {
-    flex: 1;
-    scroll-snap-type: y proximity;
+    /* flex: 1; */
+    width: 100vw;
+    position: relative;
+    /* left: -40vw; */
+    scroll-snap-type: y var(--snap-type, proximity);
     height: 100vh;
     overflow-y: auto;
     scroll-behavior: smooth;
@@ -77,7 +81,7 @@
 <main>
   <Sidebar {active} />
 
-  <article bind:this={container}>
+  <article bind:this={container} style="--snap-type: {snapType}">
     <slot {intersecting} />
   </article>
 </main>

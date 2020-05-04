@@ -5,10 +5,15 @@
   import CodeBlock from "@components/CodeBlock";
 </script>
 
-<DocsLayout>
+<DocsLayout snapType="mandatory">
 
   <DocsSection id="setup">
-    <CodeBlock>npx svelte-server --init</CodeBlock>
+    <CodeBlock>npx svelte-server --init MyProject</CodeBlock>
+  </DocsSection>
+
+
+  <DocsSection id="setup">
+    <CodeBlock>cd MyProject</CodeBlock>
   </DocsSection>
 
   <DocsSection id="usage">
