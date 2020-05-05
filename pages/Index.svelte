@@ -18,9 +18,7 @@
   main {
     width: 100vw;
     text-align: center;
-    /* padding: 25vh 4rem; */
     color: #444;
-    /* border: 1px solid; */
     height: 100vh;
     display: flex;
     flex-flow: row wrap;
