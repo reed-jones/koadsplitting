@@ -12,7 +12,7 @@
   </DocsSection>
 
 
-  <DocsSection id="setup">
+  <DocsSection id="enter">
     <CodeBlock>cd MyProject</CodeBlock>
   </DocsSection>
 

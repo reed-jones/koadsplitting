@@ -20,15 +20,16 @@ const to = `${href}#${hash}`
 
   .main {
       text-decoration: underline;
+      opacity: 1;
   }
 
   .sub-nav {
-      opacity: 0.5;
+      opacity: 0.65;
   }
 
-  .active {
+  .sub-nav.active {
       font-style: italic;
-      opacity: 0.65;
+      opacity: 0.75;
       text-decoration: underline;
   }
 </style>
