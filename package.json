@@ -2,6 +2,8 @@
   "name": "svelte-server-docs",
   "version": "1.0.0",
   "main": "index.js",
+  "type": "module",
+  "engines": { "node": "14.x" },
   "repository": "git@github.com:reed-jones/koadsplitting.git",
   "author": "Reed Jones <reedjones@reedjones.com>",
   "license": "MIT",

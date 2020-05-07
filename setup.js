@@ -4,7 +4,7 @@
  * the root directory to provide additional options
  */
 
-module.exports = {
+export default {
   // Data Loading. root page props can be supplied here.
   // using the url as the key, make a function that
   // returns an object containing all the required props
@@ -40,6 +40,8 @@ module.exports = {
 
     // main page template: https://ejs.co/
     template: "index.template.ejs",
+
+
 
     // show logging in console
     // logging: process.env.NODE_ENV !== "production",
