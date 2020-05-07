@@ -62,18 +62,17 @@
   }
 
   .mobile-toggle {
-    width: 10vw;
-    height: 10vw;
-    position: absolute;
-    bottom: 0;
+    width: 15vw;
+    height: 15vw;
+    position: fixed;
     right: 0;
-    transform: translateX(10vw);
+    transform: translateX(15vw);
     display: flex;
     flex-flow: row wrap;
     align-items: center;
     justify-content: center;
     padding: 0.25rem;
-    border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
     border-right-width: 2px;
     border-top-width: 2px;
     border-left-width: 0;
