@@ -5,7 +5,6 @@
 
   function toggleNav() {
     open = !open;
-    console.log(`nav is now ${open ? "Open" : "Closed"}`);
   }
 </script>
 
@@ -73,8 +72,8 @@
     flex-flow: row wrap;
     align-items: center;
     justify-content: center;
-    padding: .25rem;
-    border-top-right-radius: .25rem;
+    padding: 0.25rem;
+    border-top-right-radius: 0.25rem;
     border-right-width: 2px;
     border-top-width: 2px;
     border-left-width: 0;
@@ -85,25 +84,25 @@
     color: white;
   }
   .mobile-toggle:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: -.25rem;
-      width: .5rem;
-      background: #4c597b;
-      z-index: -10;
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -0.25rem;
+    width: 0.5rem;
+    background: #4c597b;
+    z-index: -10;
   }
 
   .mobile-toggle span {
-      border: 1px solid;
-      width: 80%;
+    border: 1px solid;
+    width: 80%;
   }
 
   @media screen and (min-width: 768px) {
-      .mobile-toggle {
-          display: none;
-      }
+    .mobile-toggle {
+      display: none;
+    }
   }
   ul {
     height: 100vh;
@@ -129,7 +128,9 @@
       <Link href="/docs/advanced/" {active} hash="" main>Advanced</Link>
     </li>
     <li>
-      <Link href="/docs/advanced/" {active} hash="cli-options">CLI Options</Link>
+      <Link href="/docs/advanced/" {active} hash="cli-options">
+        CLI Options
+      </Link>
     </li>
     <li>
       <Link href="/docs/advanced/" {active} hash="configuration">
@@ -147,7 +148,7 @@
   </ul>
   <div on:click={() => (open = !open)} class="mobile-toggle">
     <span />
-  <span />
-  <span />
+    <span />
+    <span />
   </div>
 </nav>

@@ -11,8 +11,19 @@
   let intersecting = false;
   let container;
 
+  function handleHashChange() {
+    active = location.hash.replace(/^#/, '')
+  }
+
   onMount(() => {
-    active = container.children[0];
+    // setup hash & scroll position
+    active = location.hash.replace(/^#/, '');
+    if (active) {
+      document.querySelector('article').style.scrollBehavior = 'auto'
+      document.querySelector(location.hash).scrollIntoView()
+      document.querySelector('article').style.scrollBehavior = 'smooth'
+    }
+
     let first = true;
     if (typeof IntersectionObserver !== "undefined") {
       const rootMargin = `${bottom}px ${left}px ${top}px ${right}px`;
@@ -25,7 +36,6 @@
             entries.forEach(entry => {
               const id = entry.target.getAttribute("id");
               if (entry.intersectionRatio > 0) {
-                active = entry.target.id;
                 window.location.hash = entry.target.id;
               }
             });
@@ -67,16 +77,16 @@
   }
 
   article {
-    /* flex: 1; */
     width: 100vw;
     position: relative;
-    /* left: -40vw; */
     scroll-snap-type: y var(--snap-type, proximity);
     height: 100vh;
     overflow-y: auto;
     scroll-behavior: smooth;
   }
 </style>
+
+<svelte:window on:hashchange={handleHashChange} />
 
 <main>
   <Sidebar {active} />
