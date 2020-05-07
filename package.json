@@ -1,0 +1,14 @@
+{
+  "name": "svelte-server-docs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:reed-jones/koadsplitting.git",
+  "author": "Reed Jones <reedjones@reedjones.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "npx svelte-server --ssg",
+    "hot": "npx svelte-server --dev --hmr",
+    "dev": "npx svelte-server --dev",
+    "prod": "npx svelte-server"
+  }
+}
